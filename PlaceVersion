@@ -1,1 +1,1 @@
-local PlaceVersion = 15648
+getgenv().PlaceVersion = 15648
