@@ -184,32 +184,53 @@ function Library:ApplyTextStroke(Inst)
 end;
 
 function Library:MakeDraggable(Instance, Cutoff)
-	Instance.Active = true;
+    Instance.Active = true;
 
-	Instance.InputBegan:Connect(function(Input)
-		if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch  then
-			local ObjPos = Vector2.new(
-				Mouse.X - Instance.AbsolutePosition.X,
-				Mouse.Y - Instance.AbsolutePosition.Y
-			);
+    local Dragging = false
+    local DragInput, MousePos, FramePos
 
-			if ObjPos.Y > (Cutoff or 40) then
-				return;
-			end;
+    Instance.InputBegan:Connect(function(Input)
+        if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+            local ObjPos = Vector2.new(
+                Input.Position.X - Instance.AbsolutePosition.X,
+                Input.Position.Y - Instance.AbsolutePosition.Y
+            )
 
-			while InputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) or IsTouching do
-				Instance.Position = UDim2.new(
-					0,
-					Mouse.X - ObjPos.X + (Instance.Size.X.Offset * Instance.AnchorPoint.X),
-					0,
-					Mouse.Y - ObjPos.Y + (Instance.Size.Y.Offset * Instance.AnchorPoint.Y)
-				);
+            if ObjPos.Y > (Cutoff or 40) then
+                return
+            end
 
-				RenderStepped:Wait();
-			end;
-		end;
-	end)
-end;
+            Dragging = true
+            MousePos = Input.Position
+            FramePos = Instance.Position
+
+            Input.Changed:Connect(function()
+                if Input.UserInputState == Enum.UserInputState.End then
+                    Dragging = false
+                end
+            end)
+        end
+    end)
+
+    Instance.InputChanged:Connect(function(Input)
+        if Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch then
+            DragInput = Input
+        end
+    end)
+
+    InputService.InputChanged:Connect(function(Input)
+        if Input == DragInput and Dragging then
+            local Delta = Input.Position - MousePos
+            Instance.Position = UDim2.new(
+                FramePos.X.Scale,
+                FramePos.X.Offset + Delta.X,
+                FramePos.Y.Scale,
+                FramePos.Y.Offset + Delta.Y
+            )
+        end
+    end)
+end
+
 
 function Library:AddToolTip(InfoStr, HoverInstance)
 	local X, Y = Library:GetTextBounds(InfoStr, Library.Font, 14);
@@ -1296,7 +1317,7 @@ do
 					return false
 				end
 
-				if Input.UserInputType ~= Enum.UserInputType.MouseButton1 or Enum.UserInputType.Touch then
+				if Input.UserInputType ~= Enum.UserInputType.MouseButton1 and Input.UserInputType ~= Enum.UserInputType.Touch then
 					return false
 				end
 
@@ -2691,7 +2712,7 @@ function Library:Notify(Text, Time)
 		BackgroundColor3 = 'AccentColor';
 	}, true);
 	local function inputBegan(input)
-		pcall(function() if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		pcall(function() if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 				task.spawn(function() pcall(function()
 
 						NotifyOuter:TweenSize(UDim2.new(0, 0, 0, 20), 'Out', 'Quad', 0.4, true);
