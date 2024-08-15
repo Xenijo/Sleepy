@@ -11,11 +11,11 @@ local Mouse = LocalPlayer:GetMouse();
 
 local ProtectGui = protectgui or (syn and syn.protect_gui) or (function() end);
 
-UserInputService.TouchStarted:Connect(function()
+InputService.TouchStarted:Connect(function()
     isTouching = true
 end)
 
-UserInputService.TouchEnded:Connect(function()
+InputService.TouchEnded:Connect(function()
     isTouching = false
 end)
 
