@@ -1345,7 +1345,7 @@ do
 					Button.Label.Text = Button.Text
 					task.defer(rawset, Button, 'Locked', false)
 
-					if clicked then
+					if clicked or Input.UserInputType == Enum.UserInputType.Touch then
 						Library:SafeCallback(Button.Func)
 					end
 
