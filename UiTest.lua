@@ -2691,7 +2691,7 @@ function Library:Notify(Text, Time)
 		BackgroundColor3 = 'AccentColor';
 	}, true);
 	local function inputBegan(input)
-		pcall(function() if input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch  then
+		pcall(function() if input.UserInputType == Enum.UserInputType.MouseButton1 then
 				task.spawn(function() pcall(function()
 
 						NotifyOuter:TweenSize(UDim2.new(0, 0, 0, 20), 'Out', 'Quad', 0.4, true);
