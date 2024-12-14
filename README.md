@@ -1,1 +1,1 @@
-# discord.gg/streetzwar2 ON TOP!
+# discord.gg/sleepyhub ON TOP!
