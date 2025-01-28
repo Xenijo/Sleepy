@@ -446,7 +446,7 @@ declare(features, "visuals", {
 		},
 	},
 	["tracer"] = {
-		["enabled"] = true,
+		["enabled"] = false,
 		["startPosition"] = "bottom", -- "bottom", "center", or "head"
 		["color"] = Color3.fromRGB(255, 255, 255),
 		["outline"] = {
