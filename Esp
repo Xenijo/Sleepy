@@ -240,52 +240,10 @@ get("player").update = function(self, character, data)
 			drawings.tracer.ZIndex = 0
 
 			-- Box style handling
-		if visuals.boxes.style == "Corners" then
+	if visuals.boxes.style == "Corners" then
     local cornerLength = math.floor(1 * scale) -- Length of the corner lines
-  -- Top-left corner
-    drawings.cornerTLH.From = Vector2.new(xPosition, yPostion)
-    drawings.cornerTLH.To = Vector2.new(xPosition + cornerLength, yPostion)
-    drawings.cornerTLH.Color = color(visuals.boxes.color)
-    drawings.cornerTLH.Thickness = 1
 
-    drawings.cornerTLV.From = Vector2.new(xPosition, yPostion)
-    drawings.cornerTLV.To = Vector2.new(xPosition, yPostion + cornerLength)
-    drawings.cornerTLV.Color = color(visuals.boxes.color)
-    drawings.cornerTLV.Thickness = 1
-
-    -- Top-right corner
-    drawings.cornerTRH.From = Vector2.new(xPosition + width, yPostion)
-    drawings.cornerTRH.To = Vector2.new(xPosition + width - cornerLength, yPostion)
-    drawings.cornerTRH.Color = color(visuals.boxes.color)
-    drawings.cornerTRH.Thickness = 1
-
-    drawings.cornerTRV.From = Vector2.new(xPosition + width, yPostion)
-    drawings.cornerTRV.To = Vector2.new(xPosition + width, yPostion + cornerLength)
-    drawings.cornerTRV.Color = color(visuals.boxes.color)
-    drawings.cornerTRV.Thickness = 1
-
-    -- Bottom-left corner
-    drawings.cornerBLH.From = Vector2.new(xPosition, yPostion + height)
-    drawings.cornerBLH.To = Vector2.new(xPosition + cornerLength, yPostion + height)
-    drawings.cornerBLH.Color = color(visuals.boxes.color)
-    drawings.cornerBLH.Thickness = 1
-
-    drawings.cornerBLV.From = Vector2.new(xPosition, yPostion + height)
-    drawings.cornerBLV.To = Vector2.new(xPosition, yPostion + height - cornerLength)
-    drawings.cornerBLV.Color = color(visuals.boxes.color)
-    drawings.cornerBLV.Thickness = 1
-
-    -- Bottom-right corner
-    drawings.cornerBRH.From = Vector2.new(xPosition + width, yPostion + height)
-    drawings.cornerBRH.To = Vector2.new(xPosition + width - cornerLength, yPostion + height)
-    drawings.cornerBRH.Color = color(visuals.boxes.color)
-    drawings.cornerBRH.Thickness = 1
-
-    drawings.cornerBRV.From = Vector2.new(xPosition + width, yPostion + height)
-    drawings.cornerBRV.To = Vector2.new(xPosition + width, yPostion + height - cornerLength)
-    drawings.cornerBRV.Color = color(visuals.boxes.color)
-    drawings.cornerBRV.Thickness = 1
-
+    -- Top-left corner
     drawings.cornerTLH.From = Vector2.new(xPosition, yPostion)
     drawings.cornerTLH.To = Vector2.new(xPosition + cornerLength, yPostion)
     drawings.cornerTLH.Color = color(visuals.boxes.color)
@@ -294,15 +252,121 @@ get("player").update = function(self, character, data)
 
     drawings.cornerTLHOutline.From = Vector2.new(xPosition - 1, yPostion - 1)
     drawings.cornerTLHOutline.To = Vector2.new(xPosition + cornerLength + 1, yPostion - 1)
-    drawings.cornerTLHOutline.Color = visuals.boxes.outlineColor or Color3.new(0, 0, 0)
+    drawings.cornerTLHOutline.Color = visuals.boxes.outline.color
     drawings.cornerTLHOutline.Thickness = 3
-    drawings.cornerTLHOutline.Visible = visuals.boxes.outlines
+    drawings.cornerTLHOutline.Visible = visuals.boxes.outline.enabled
+
+    drawings.cornerTLV.From = Vector2.new(xPosition, yPostion)
+    drawings.cornerTLV.To = Vector2.new(xPosition, yPostion + cornerLength)
+    drawings.cornerTLV.Color = color(visuals.boxes.color)
+    drawings.cornerTLV.Thickness = 1
+    drawings.cornerTLV.Visible = true
+
+    drawings.cornerTLVOutline.From = Vector2.new(xPosition - 1, yPostion - 1)
+    drawings.cornerTLVOutline.To = Vector2.new(xPosition - 1, yPostion + cornerLength + 1)
+    drawings.cornerTLVOutline.Color = visuals.boxes.outline.color
+    drawings.cornerTLVOutline.Thickness = 3
+    drawings.cornerTLVOutline.Visible = visuals.boxes.outline.enabled
+
+    -- Top-right corner
+    drawings.cornerTRH.From = Vector2.new(xPosition + width, yPostion)
+    drawings.cornerTRH.To = Vector2.new(xPosition + width - cornerLength, yPostion)
+    drawings.cornerTRH.Color = color(visuals.boxes.color)
+    drawings.cornerTRH.Thickness = 1
+    drawings.cornerTRH.Visible = true
+
+    drawings.cornerTRHOutline.From = Vector2.new(xPosition + width + 1, yPostion - 1)
+    drawings.cornerTRHOutline.To = Vector2.new(xPosition + width - cornerLength - 1, yPostion - 1)
+    drawings.cornerTRHOutline.Color = visuals.boxes.outline.color
+    drawings.cornerTRHOutline.Thickness = 3
+    drawings.cornerTRHOutline.Visible = visuals.boxes.outline.enabled
+
+    drawings.cornerTRV.From = Vector2.new(xPosition + width, yPostion)
+    drawings.cornerTRV.To = Vector2.new(xPosition + width, yPostion + cornerLength)
+    drawings.cornerTRV.Color = color(visuals.boxes.color)
+    drawings.cornerTRV.Thickness = 1
+    drawings.cornerTRV.Visible = true
+
+    drawings.cornerTRVOutline.From = Vector2.new(xPosition + width + 1, yPostion - 1)
+    drawings.cornerTRVOutline.To = Vector2.new(xPosition + width + 1, yPostion + cornerLength + 1)
+    drawings.cornerTRVOutline.Color = visuals.boxes.outline.color
+    drawings.cornerTRVOutline.Thickness = 3
+    drawings.cornerTRVOutline.Visible = visuals.boxes.outline.enabled
+
+    -- Bottom-left corner
+    drawings.cornerBLH.From = Vector2.new(xPosition, yPostion + height)
+    drawings.cornerBLH.To = Vector2.new(xPosition + cornerLength, yPostion + height)
+    drawings.cornerBLH.Color = color(visuals.boxes.color)
+    drawings.cornerBLH.Thickness = 1
+    drawings.cornerBLH.Visible = true
+
+    drawings.cornerBLHOutline.From = Vector2.new(xPosition - 1, yPostion + height + 1)
+    drawings.cornerBLHOutline.To = Vector2.new(xPosition + cornerLength + 1, yPostion + height + 1)
+    drawings.cornerBLHOutline.Color = visuals.boxes.outline.color
+    drawings.cornerBLHOutline.Thickness = 3
+    drawings.cornerBLHOutline.Visible = visuals.boxes.outline.enabled
+
+    drawings.cornerBLV.From = Vector2.new(xPosition, yPostion + height)
+    drawings.cornerBLV.To = Vector2.new(xPosition, yPostion + height - cornerLength)
+    drawings.cornerBLV.Color = color(visuals.boxes.color)
+    drawings.cornerBLV.Thickness = 1
+    drawings.cornerBLV.Visible = true
+
+    drawings.cornerBLVOutline.From = Vector2.new(xPosition - 1, yPostion + height + 1)
+    drawings.cornerBLVOutline.To = Vector2.new(xPosition - 1, yPostion + height - cornerLength - 1)
+    drawings.cornerBLVOutline.Color = visuals.boxes.outline.color
+    drawings.cornerBLVOutline.Thickness = 3
+    drawings.cornerBLVOutline.Visible = visuals.boxes.outline.enabled
+
+    -- Bottom-right corner
+    drawings.cornerBRH.From = Vector2.new(xPosition + width, yPostion + height)
+    drawings.cornerBRH.To = Vector2.new(xPosition + width - cornerLength, yPostion + height)
+    drawings.cornerBRH.Color = color(visuals.boxes.color)
+    drawings.cornerBRH.Thickness = 1
+    drawings.cornerBRH.Visible = true
+
+    drawings.cornerBRHOutline.From = Vector2.new(xPosition + width + 1, yPostion + height + 1)
+    drawings.cornerBRHOutline.To = Vector2.new(xPosition + width - cornerLength - 1, yPostion + height + 1)
+    drawings.cornerBRHOutline.Color = visuals.boxes.outline.color
+    drawings.cornerBRHOutline.Thickness = 3
+    drawings.cornerBRHOutline.Visible = visuals.boxes.outline.enabled
+
+    drawings.cornerBRV.From = Vector2.new(xPosition + width, yPostion + height)
+    drawings.cornerBRV.To = Vector2.new(xPosition + width, yPostion + height - cornerLength)
+    drawings.cornerBRV.Color = color(visuals.boxes.color)
+    drawings.cornerBRV.Thickness = 1
+    drawings.cornerBRV.Visible = true
+
+    drawings.cornerBRVOutline.From = Vector2.new(xPosition + width + 1, yPostion + height + 1)
+    drawings.cornerBRVOutline.To = Vector2.new(xPosition + width + 1, yPostion + height - cornerLength - 1)
+    drawings.cornerBRVOutline.Color = visuals.boxes.outline.color
+    drawings.cornerBRVOutline.Thickness = 3
+    drawings.cornerBRVOutline.Visible = visuals.boxes.outline.enabled
 
     -- Configure filled corner elements
     drawings.cornerFilledTL.Size = Vector2.new(cornerLength, cornerLength)
     drawings.cornerFilledTL.Position = Vector2.new(xPosition, yPostion)
-    drawings.cornerFilledTL.Color = color(visuals.boxes.color)
-    drawings.cornerFilledTL.Visible = visuals.boxes.filled
+    drawings.cornerFilledTL.Color = color(visuals.boxes.filled.color)
+    drawings.cornerFilledTL.Transparency = visuals.boxes.filled.transparency
+    drawings.cornerFilledTL.Visible = visuals.boxes.filled.enabled
+
+    drawings.cornerFilledTR.Size = Vector2.new(cornerLength, cornerLength)
+    drawings.cornerFilledTR.Position = Vector2.new(xPosition + width - cornerLength, yPostion)
+    drawings.cornerFilledTR.Color = color(visuals.boxes.filled.color)
+    drawings.cornerFilledTR.Transparency = visuals.boxes.filled.transparency
+    drawings.cornerFilledTR.Visible = visuals.boxes.filled.enabled
+
+    drawings.cornerFilledBL.Size = Vector2.new(cornerLength, cornerLength)
+    drawings.cornerFilledBL.Position = Vector2.new(xPosition, yPostion + height - cornerLength)
+    drawings.cornerFilledBL.Color = color(visuals.boxes.filled.color)
+    drawings.cornerFilledBL.Transparency = visuals.boxes.filled.transparency
+    drawings.cornerFilledBL.Visible = visuals.boxes.filled.enabled
+
+    drawings.cornerFilledBR.Size = Vector2.new(cornerLength, cornerLength)
+    drawings.cornerFilledBR.Position = Vector2.new(xPosition + width - cornerLength, yPostion + height - cornerLength)
+    drawings.cornerFilledBR.Color = color(visuals.boxes.filled.color)
+    drawings.cornerFilledBR.Transparency = visuals.boxes.filled.transparency
+    drawings.cornerFilledBR.Visible = visuals.boxes.filled.enabled
 
     drawings.box.Visible = false
     drawings.boxOutline.Visible = false
