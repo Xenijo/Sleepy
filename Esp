@@ -1,5 +1,3 @@
--- esp [wip]
-
 local players = cloneref(game:GetService("Players"))
 local client = players.LocalPlayer
 local camera = workspace.CurrentCamera
@@ -113,6 +111,16 @@ get("player").new = function(self, player)
 				["healthText"] = get("new").drawing("Text", { Visible = false, Center = false}),
 				["distance"] = get("new").drawing("Text", { Visible = false, Center = true}),
 				["weapon"] = get("new").drawing("Text", { Visible = false, Center = true}),
+				["tracer"] = get("new").drawing("Line", { Visible = false }),
+				["tracerOutline"] = get("new").drawing("Line", { Visible = false }),
+				["cornerTLH"] = get("new").drawing("Line", { Visible = false }),
+				["cornerTLV"] = get("new").drawing("Line", { Visible = false }),
+				["cornerTRH"] = get("new").drawing("Line", { Visible = false }),
+				["cornerTRV"] = get("new").drawing("Line", { Visible = false }),
+				["cornerBLH"] = get("new").drawing("Line", { Visible = false }),
+				["cornerBLV"] = get("new").drawing("Line", { Visible = false }),
+				["cornerBRH"] = get("new").drawing("Line", { Visible = false }),
+				["cornerBRV"] = get("new").drawing("Line", { Visible = false }),
 			}
 		}
 	end
@@ -186,41 +194,117 @@ get("player").update = function(self, character, data)
 			local width, height = math.floor(4.5 * scale), math.floor(6 * scale)
 			local x, y = math.floor(position.X), math.floor(position.Y)
 			local xPosition, yPostion = math.floor(x - width * 0.5), math.floor((y - height * 0.5) + (0.5 * scale))
-            --// Deafultes \\--
-            drawings.boxOutline.ZIndex = 0
-            drawings.boxFilled.ZIndex = 0 
-            drawings.name.ZIndex = 0
-            drawings.healthOutline.ZIndex = 0
+            
+			-- Tracer calculations
+			local tracerStart
+			if visuals.tracer.startPosition == "bottom" then
+				tracerStart = Vector2.new(camera.ViewportSize.X/2, camera.ViewportSize.Y)
+			elseif visuals.tracer.startPosition == "center" then
+				tracerStart = Vector2.new(camera.ViewportSize.X/2, camera.ViewportSize.Y/2)
+			elseif visuals.tracer.startPosition == "head" then
+				local head = character:FindFirstChild("Head")
+				if head then
+					local headPos = camera:WorldToViewportPoint(head.Position)
+					tracerStart = Vector2.new(headPos.X, headPos.Y)
+				else
+					tracerStart = Vector2.new(camera.ViewportSize.X/2, camera.ViewportSize.Y)
+				end
+			else
+				tracerStart = Vector2.new(camera.ViewportSize.X/2, camera.ViewportSize.Y)
+			end
 
-			drawings.box.Size = Vector2.new(width, height)
-			drawings.box.Position = Vector2.new(xPosition, yPostion)
-			drawings.boxFilled.Size = drawings.box.Size
-			drawings.boxFilled.Position = drawings.box.Position
-			drawings.boxOutline.Size = drawings.box.Size
-			drawings.boxOutline.Position = drawings.box.Position
+			-- Tracer settings
+			drawings.tracerOutline.From = tracerStart
+			drawings.tracerOutline.To = Vector2.new(x, y)
+			drawings.tracerOutline.Color = visuals.tracer.outline.color
+			drawings.tracerOutline.Thickness = 3
+			drawings.tracerOutline.ZIndex = -1
 
-			drawings.box.Color = color(visuals.boxes.color)
-			drawings.box.Thickness = 1
-			drawings.boxFilled.Color = color(visuals.boxes.filled.color)
-			drawings.boxFilled.Transparency = visuals.boxes.filled.transparency
-			drawings.boxOutline.Color = visuals.boxes.outline.color
-			drawings.boxOutline.Thickness = 3
+			drawings.tracer.From = tracerStart
+			drawings.tracer.To = Vector2.new(x, y)
+			drawings.tracer.Color = color(visuals.tracer.color)
+			drawings.tracer.Thickness = 1
+			drawings.tracer.ZIndex = 0
 
-			drawings.boxOutline.ZIndex = drawings.box.ZIndex - 1
-			drawings.boxFilled.ZIndex = drawings.boxOutline.ZIndex - 1
+			-- Box style handling
+		if visuals.boxes.style == "Corners" then
+    local cornerLength = math.floor(1 * scale) -- Length of the corner lines
 
+    -- Top-left corner
+    drawings.cornerTLH.From = Vector2.new(xPosition, yPostion)
+    drawings.cornerTLH.To = Vector2.new(xPosition + cornerLength, yPostion)
+    drawings.cornerTLH.Color = color(visuals.boxes.color)
+    drawings.cornerTLH.Thickness = 1
 
+    drawings.cornerTLV.From = Vector2.new(xPosition, yPostion)
+    drawings.cornerTLV.To = Vector2.new(xPosition, yPostion + cornerLength)
+    drawings.cornerTLV.Color = color(visuals.boxes.color)
+    drawings.cornerTLV.Thickness = 1
+
+    -- Top-right corner
+    drawings.cornerTRH.From = Vector2.new(xPosition + width, yPostion)
+    drawings.cornerTRH.To = Vector2.new(xPosition + width - cornerLength, yPostion)
+    drawings.cornerTRH.Color = color(visuals.boxes.color)
+    drawings.cornerTRH.Thickness = 1
+
+    drawings.cornerTRV.From = Vector2.new(xPosition + width, yPostion)
+    drawings.cornerTRV.To = Vector2.new(xPosition + width, yPostion + cornerLength)
+    drawings.cornerTRV.Color = color(visuals.boxes.color)
+    drawings.cornerTRV.Thickness = 1
+
+    -- Bottom-left corner
+    drawings.cornerBLH.From = Vector2.new(xPosition, yPostion + height)
+    drawings.cornerBLH.To = Vector2.new(xPosition + cornerLength, yPostion + height)
+    drawings.cornerBLH.Color = color(visuals.boxes.color)
+    drawings.cornerBLH.Thickness = 1
+
+    drawings.cornerBLV.From = Vector2.new(xPosition, yPostion + height)
+    drawings.cornerBLV.To = Vector2.new(xPosition, yPostion + height - cornerLength)
+    drawings.cornerBLV.Color = color(visuals.boxes.color)
+    drawings.cornerBLV.Thickness = 1
+
+    -- Bottom-right corner
+    drawings.cornerBRH.From = Vector2.new(xPosition + width, yPostion + height)
+    drawings.cornerBRH.To = Vector2.new(xPosition + width - cornerLength, yPostion + height)
+    drawings.cornerBRH.Color = color(visuals.boxes.color)
+    drawings.cornerBRH.Thickness = 1
+
+    drawings.cornerBRV.From = Vector2.new(xPosition + width, yPostion + height)
+    drawings.cornerBRV.To = Vector2.new(xPosition + width, yPostion + height - cornerLength)
+    drawings.cornerBRV.Color = color(visuals.boxes.color)
+    drawings.cornerBRV.Thickness = 1
+
+			else
+				-- Original box settings
+				drawings.box.Size = Vector2.new(width, height)
+				drawings.box.Position = Vector2.new(xPosition, yPostion)
+				drawings.boxFilled.Size = drawings.box.Size
+				drawings.boxFilled.Position = drawings.box.Position
+				drawings.boxOutline.Size = drawings.box.Size
+				drawings.boxOutline.Position = drawings.box.Position
+
+				drawings.box.Color = color(visuals.boxes.color)
+				drawings.box.Thickness = 1
+				drawings.boxFilled.Color = color(visuals.boxes.filled.color)
+				drawings.boxFilled.Transparency = visuals.boxes.filled.transparency
+				drawings.boxOutline.Color = visuals.boxes.outline.color
+				drawings.boxOutline.Thickness = 3
+
+				drawings.boxOutline.ZIndex = drawings.box.ZIndex - 1
+				drawings.boxFilled.ZIndex = drawings.boxOutline.ZIndex - 1
+			end
+
+			-- Name settings
 			drawings.name.Text = `[ {player.Name} ]`
 			drawings.name.Size = math.max(math.min(math.abs(12.5 * scale), 12.5), 10)
 			drawings.name.Position = Vector2.new(x, (yPostion - drawings.name.TextBounds.Y) - 2)
 			drawings.name.Color = color(visuals.names.color)
 			drawings.name.Outline = visuals.names.outline.enabled
 			drawings.name.OutlineColor = visuals.names.outline.color
-
 			drawings.name.ZIndex = drawings.box.ZIndex + 1
 
+			-- Health settings
 			local healthPercent = 100 / (humanoid.MaxHealth / humanoid.Health)
-		
 			drawings.healthOutline.From = Vector2.new(xPosition - 5, yPostion)
 			drawings.healthOutline.To = Vector2.new(xPosition - 5, yPostion + height)
 			drawings.health.From = Vector2.new(xPosition - 5, (yPostion + height) - 1)
@@ -235,9 +319,9 @@ get("player").update = function(self, character, data)
 			drawings.healthText.Color = drawings.health.Color
 			drawings.healthText.Outline = visuals.health.text.outline.enabled
 			drawings.healthText.OutlineColor = visuals.health.outline.color
-
 			drawings.healthOutline.ZIndex = drawings.health.ZIndex - 1
 
+			-- Distance settings
 			drawings.distance.Text = `[ {math.floor(data.distance)} ]`
 			drawings.distance.Size = math.max(math.min(math.abs(11 * scale), 11), 10)
 			drawings.distance.Position = Vector2.new(x, (yPostion + height) + (drawings.distance.TextBounds.Y * 0.25))
@@ -245,6 +329,7 @@ get("player").update = function(self, character, data)
 			drawings.distance.Outline = visuals.distance.outline.enabled
 			drawings.distance.OutlineColor = visuals.distance.outline.color
 			
+			-- Weapon settings
 			drawings.weapon.Text = `[ {weapon} ]`
 			drawings.weapon.Size = math.max(math.min(math.abs(11 * scale), 11), 10)
 			drawings.weapon.Position = visuals.distance.enabled and Vector2.new(drawings.distance.Position.x, drawings.distance.Position.Y + (drawings.weapon.TextBounds.Y * 0.75)) or drawings.distance.Position
@@ -253,15 +338,27 @@ get("player").update = function(self, character, data)
 			drawings.weapon.OutlineColor = visuals.weapon.outline.color
 		end
 
-		drawings.box.Visible = (check() and visible and visuals.boxes.enabled)
-		drawings.boxFilled.Visible = (check() and drawings.box.Visible and visuals.boxes.filled.enabled)
-		drawings.boxOutline.Visible = (check() and drawings.box.Visible and visuals.boxes.outline.enabled)
+		-- Visibility toggles
+		local isBoxStyle = visuals.boxes.style == "Box"
+		local isCornerStyle = visuals.boxes.style == "Corners"
+
+		drawings.box.Visible = (check() and visible and visuals.boxes.enabled and isBoxStyle)
+		drawings.boxFilled.Visible = (check() and drawings.box.Visible and visuals.boxes.filled.enabled and isBoxStyle)
+		drawings.boxOutline.Visible = (check() and drawings.box.Visible and visuals.boxes.outline.enabled and isBoxStyle)
+
+
+for _, corner in {"cornerTLH", "cornerTLV", "cornerTRH", "cornerTRV", "cornerBLH", "cornerBLV", "cornerBRH", "cornerBRV"} do
+    drawings[corner].Visible = (check() and visible and visuals.boxes.enabled and visuals.boxes.style == "Corners")
+end
+
 		drawings.name.Visible = (check() and visible and visuals.names.enabled)
 		drawings.health.Visible = (check() and visible and visuals.health.enabled)
 		drawings.healthOutline.Visible = (check() and drawings.health.Visible and visuals.health.outline.enabled)
 		drawings.healthText.Visible = (check() and drawings.health.Visible and visuals.health.text.enabled)
 		drawings.distance.Visible = (check() and visible and visuals.distance.enabled)
-		drawings.weapon.Visible = (check() and visible and visuals.weapon.enabled)
+				drawings.weapon.Visible = (check() and visible and visuals.weapon.enabled)
+		drawings.tracer.Visible = (check() and visible and visuals.tracer.enabled)
+		drawings.tracerOutline.Visible = (check() and drawings.tracer.Visible and visuals.tracer.outline.enabled)
 	end)
 end
 
@@ -290,13 +387,14 @@ features.toggle = function(self, feature, boolean)
 end
 
 declare(features, "visuals", {
-	["enabled"] = true,
+	["enabled"] = false,
 	["teamCheck"] = false,
 	["teamColor"] = true,
 	["renderDistance"] = 2000,
 
 	["boxes"] = {
 		["enabled"] = true,
+		["style"] = "Box", -- "Box" or "Corners"
 		["color"] = Color3.fromRGB(255, 255, 255),
 		["outline"] = {
 			["enabled"] = true,
@@ -341,6 +439,15 @@ declare(features, "visuals", {
 	},
 	["weapon"] = {
 		["enabled"] = true,
+		["color"] = Color3.fromRGB(255, 255, 255),
+		["outline"] = {
+			["enabled"] = true,
+			["color"] = Color3.fromRGB(0, 0, 0),
+		},
+	},
+	["tracer"] = {
+		["enabled"] = true,
+		["startPosition"] = "bottom", -- "bottom", "center", or "head"
 		["color"] = Color3.fromRGB(255, 255, 255),
 		["outline"] = {
 			["enabled"] = true,
