@@ -368,11 +368,11 @@ get("player").update = function(self, character, data)
     drawings.cornerFilledBR.Visible = visuals.boxes.filled.enabled
 
 
-    drawings.filledBox.Size = Vector2.new(width, height)
-    drawings.filledBox.Position = Vector2.new(xPosition, yPosition)
-    drawings.filledBox.Color = color(visuals.boxes.filled.color)
-    drawings.filledBox.Transparency = visuals.boxes.filled.transparency
-    drawings.filledBox.Visible = visuals.boxes.filled.enabled
+    drawings.filledBox.Size = UDim2.new(0, width, 0, height)
+drawings.filledBox.Position = UDim2.new(0, xPosition, 0, yPostion)
+drawings.filledBox.BackgroundColor3 = color(visuals.boxes.filled.color)  
+drawings.filledBox.BackgroundTransparency = visuals.boxes.filled.transparency
+drawings.filledBox.Visible = visuals.boxes.filled.enabled
 
     drawings.box.Visible = false
     drawings.boxOutline.Visible = false
