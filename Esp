@@ -121,6 +121,19 @@ get("player").new = function(self, player)
 				["cornerBLV"] = get("new").drawing("Line", { Visible = false }),
 				["cornerBRH"] = get("new").drawing("Line", { Visible = false }),
 				["cornerBRV"] = get("new").drawing("Line", { Visible = false }),
+                                 ["cornerTLHOutline"] = get("new").drawing("Line", { Visible = false }),
+				    ["cornerTLVOutline"] = get("new").drawing("Line", { Visible = false }),
+				    ["cornerTRHOutline"] = get("new").drawing("Line", { Visible = false }),
+				    ["cornerTRVOutline"] = get("new").drawing("Line", { Visible = false }),
+				    ["cornerBLHOutline"] = get("new").drawing("Line", { Visible = false }),
+				    ["cornerBLVOutline"] = get("new").drawing("Line", { Visible = false }),
+				    ["cornerBRHOutline"] = get("new").drawing("Line", { Visible = false }),
+				    ["cornerBRVOutline"] = get("new").drawing("Line", { Visible = false }),
+
+			    ["cornerFilledTL"] = get("new").drawing("Square", { Visible = false, Filled = true }),
+			    ["cornerFilledTR"] = get("new").drawing("Square", { Visible = false, Filled = true }),
+			    ["cornerFilledBL"] = get("new").drawing("Square", { Visible = false, Filled = true }),
+			    ["cornerFilledBR"] = get("new").drawing("Square", { Visible = false, Filled = true }),
 			}
 		}
 	end
@@ -273,7 +286,24 @@ get("player").update = function(self, character, data)
     drawings.cornerBRV.Color = color(visuals.boxes.color)
     drawings.cornerBRV.Thickness = 1
 
-    -- Hide box, outline, and filled elements when "Corners" style is active
+    drawings.cornerTLH.From = Vector2.new(xPosition, yPostion)
+    drawings.cornerTLH.To = Vector2.new(xPosition + cornerLength, yPostion)
+    drawings.cornerTLH.Color = color(visuals.boxes.color)
+    drawings.cornerTLH.Thickness = 1
+    drawings.cornerTLH.Visible = true
+
+    drawings.cornerTLHOutline.From = Vector2.new(xPosition - 1, yPostion - 1)
+    drawings.cornerTLHOutline.To = Vector2.new(xPosition + cornerLength + 1, yPostion - 1)
+    drawings.cornerTLHOutline.Color = visuals.boxes.outlineColor or Color3.new(0, 0, 0)
+    drawings.cornerTLHOutline.Thickness = 3
+    drawings.cornerTLHOutline.Visible = visuals.boxes.outlines
+
+    -- Configure filled corner elements
+    drawings.cornerFilledTL.Size = Vector2.new(cornerLength, cornerLength)
+    drawings.cornerFilledTL.Position = Vector2.new(xPosition, yPostion)
+    drawings.cornerFilledTL.Color = color(visuals.boxes.color)
+    drawings.cornerFilledTL.Visible = visuals.boxes.filled
+
     drawings.box.Visible = false
     drawings.boxOutline.Visible = false
     drawings.boxFilled.Visible = false
