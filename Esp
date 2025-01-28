@@ -342,12 +342,6 @@ get("player").update = function(self, character, data)
     drawings.cornerBRVOutline.Thickness = 1
     drawings.cornerBRVOutline.Visible = visuals.boxes.outline.enabled
 
-    drawings.filledBox.Size = drawings.boxFilled.Size 
-drawings.filledBox.Position = drawings.box.Position
-drawings.filledBox.BackgroundColor3 = color(visuals.boxes.filled.color)  
-drawings.filledBox.BackgroundTransparency = visuals.boxes.filled.transparency
-drawings.filledBox.Visible = visuals.boxes.filled.enabled
-
     drawings.box.Visible = false
     drawings.boxOutline.Visible = false
     drawings.boxFilled.Visible = false
