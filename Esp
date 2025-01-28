@@ -343,33 +343,8 @@ get("player").update = function(self, character, data)
     drawings.cornerBRVOutline.Thickness = 1
     drawings.cornerBRVOutline.Visible = visuals.boxes.outline.enabled
 
-      drawings.cornerFilledTL.Size = Vector2.new(cornerLength, cornerLength)
-    drawings.cornerFilledTL.Position = Vector2.new(xPosition, yPostion)
-    drawings.cornerFilledTL.Color = color(visuals.boxes.filled.color)
-    drawings.cornerFilledTL.Transparency = visuals.boxes.filled.transparency
-    drawings.cornerFilledTL.Visible = visuals.boxes.filled.enabled
-
-    drawings.cornerFilledTR.Size = Vector2.new(cornerLength, cornerLength)
-    drawings.cornerFilledTR.Position = Vector2.new(xPosition + width - cornerLength, yPostion)
-    drawings.cornerFilledTR.Color = color(visuals.boxes.filled.color)
-    drawings.cornerFilledTR.Transparency = visuals.boxes.filled.transparency
-    drawings.cornerFilledTR.Visible = visuals.boxes.filled.enabled
-
-    drawings.cornerFilledBL.Size = Vector2.new(cornerLength, cornerLength)
-    drawings.cornerFilledBL.Position = Vector2.new(xPosition, yPostion + height - cornerLength)
-    drawings.cornerFilledBL.Color = color(visuals.boxes.filled.color)
-    drawings.cornerFilledBL.Transparency = visuals.boxes.filled.transparency
-    drawings.cornerFilledBL.Visible = visuals.boxes.filled.enabled
-
-    drawings.cornerFilledBR.Size = Vector2.new(cornerLength, cornerLength)
-    drawings.cornerFilledBR.Position = Vector2.new(xPosition + width - cornerLength, yPostion + height - cornerLength)
-    drawings.cornerFilledBR.Color = color(visuals.boxes.filled.color)
-    drawings.cornerFilledBR.Transparency = visuals.boxes.filled.transparency
-    drawings.cornerFilledBR.Visible = visuals.boxes.filled.enabled
-
-
-    drawings.filledBox.Size = UDim2.new(0, width, 0, height)
-drawings.filledBox.Position = UDim2.new(0, xPosition, 0, yPostion)
+    drawings.filledBox.Size = drawings.boxFilled.Size = drawings.box.Size
+drawings.filledBox.Position = drawings.box.Position
 drawings.filledBox.BackgroundColor3 = color(visuals.boxes.filled.color)  
 drawings.filledBox.BackgroundTransparency = visuals.boxes.filled.transparency
 drawings.filledBox.Visible = visuals.boxes.filled.enabled
