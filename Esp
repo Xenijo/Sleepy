@@ -239,7 +239,6 @@ get("player").update = function(self, character, data)
 			drawings.tracer.Thickness = 1
 			drawings.tracer.ZIndex = 0
 
-			-- Box style handling
 	if visuals.boxes.style == "Corners" then
     local cornerLength = math.floor(1 * scale) -- Length of the corner lines
 
@@ -343,7 +342,7 @@ get("player").update = function(self, character, data)
     drawings.cornerBRVOutline.Thickness = 1
     drawings.cornerBRVOutline.Visible = visuals.boxes.outline.enabled
 
-    drawings.filledBox.Size = drawings.boxFilled.Size = drawings.box.Size
+    drawings.filledBox.Size = drawings.boxFilled.Size 
 drawings.filledBox.Position = drawings.box.Position
 drawings.filledBox.BackgroundColor3 = color(visuals.boxes.filled.color)  
 drawings.filledBox.BackgroundTransparency = visuals.boxes.filled.transparency
