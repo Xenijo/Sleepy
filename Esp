@@ -229,8 +229,7 @@ get("player").update = function(self, character, data)
 			-- Box style handling
 		if visuals.boxes.style == "Corners" then
     local cornerLength = math.floor(1 * scale) -- Length of the corner lines
-
-    -- Top-left corner
+  -- Top-left corner
     drawings.cornerTLH.From = Vector2.new(xPosition, yPostion)
     drawings.cornerTLH.To = Vector2.new(xPosition + cornerLength, yPostion)
     drawings.cornerTLH.Color = color(visuals.boxes.color)
@@ -274,6 +273,10 @@ get("player").update = function(self, character, data)
     drawings.cornerBRV.Color = color(visuals.boxes.color)
     drawings.cornerBRV.Thickness = 1
 
+    -- Hide box, outline, and filled elements when "Corners" style is active
+    drawings.box.Visible = false
+    drawings.boxOutline.Visible = false
+    drawings.boxFilled.Visible = false
 			else
 				-- Original box settings
 				drawings.box.Size = Vector2.new(width, height)
