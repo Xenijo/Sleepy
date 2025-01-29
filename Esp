@@ -113,6 +113,27 @@ get("player").new = function(self, player)
 				["weapon"] = get("new").drawing("Text", { Visible = false, Center = true}),
 				["tracer"] = get("new").drawing("Line", { Visible = false }),
 				["tracerOutline"] = get("new").drawing("Line", { Visible = false }),
+				["cornerTLH"] = get("new").drawing("Line", { Visible = false }),
+				["cornerTLV"] = get("new").drawing("Line", { Visible = false }),
+				["cornerTRH"] = get("new").drawing("Line", { Visible = false }),
+				["cornerTRV"] = get("new").drawing("Line", { Visible = false }),
+				["cornerBLH"] = get("new").drawing("Line", { Visible = false }),
+				["cornerBLV"] = get("new").drawing("Line", { Visible = false }),
+				["cornerBRH"] = get("new").drawing("Line", { Visible = false }),
+				["cornerBRV"] = get("new").drawing("Line", { Visible = false }),
+                                 ["cornerTLHOutline"] = get("new").drawing("Line", { Visible = false }),
+				    ["cornerTLVOutline"] = get("new").drawing("Line", { Visible = false }),
+				    ["cornerTRHOutline"] = get("new").drawing("Line", { Visible = false }),
+				    ["cornerTRVOutline"] = get("new").drawing("Line", { Visible = false }),
+				    ["cornerBLHOutline"] = get("new").drawing("Line", { Visible = false }),
+				    ["cornerBLVOutline"] = get("new").drawing("Line", { Visible = false }),
+				    ["cornerBRHOutline"] = get("new").drawing("Line", { Visible = false }),
+				    ["cornerBRVOutline"] = get("new").drawing("Line", { Visible = false }),
+
+			    ["cornerFilledTL"] = get("new").drawing("Square", { Visible = false, Filled = true }),
+			    ["cornerFilledTR"] = get("new").drawing("Square", { Visible = false, Filled = true }),
+			    ["cornerFilledBL"] = get("new").drawing("Square", { Visible = false, Filled = true }),
+			    ["cornerFilledBR"] = get("new").drawing("Square", { Visible = false, Filled = true }),
 			}
 		}
 	end
@@ -330,7 +351,7 @@ features.toggle = function(self, feature, boolean)
 end
 
 declare(features, "visuals", {
-	["enabled"] = true,
+	["enabled"] = false,
 	["teamCheck"] = false,
 	["teamColor"] = true,
 	["renderDistance"] = 2000,
