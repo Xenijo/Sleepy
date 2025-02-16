@@ -1,0 +1,37 @@
+  local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+local Workspace = game:GetService("Workspace")
+local Camera = Workspace.CurrentCamera
+
+
+
+	local rayParams = RaycastParams.new()
+	rayParams.FilterType = Enum.RaycastFilterType.Blacklist
+	local RayHook; RayHook = hookmetamethod(game, "__namecall", newcclosure(function(Self, ...) 
+		local args = {...}
+		if getnamecallmethod() == "Raycast" and getgenv().Silentaim and not checkcaller() then
+           if target and target.Character then
+            if getgenv().Wallbang then
+                return {
+                    Instance = target.Character[SilentSettings.HitPart] or game.Players.LocalPlayer.Character.HumanoidRootPart ,
+                    Position = target.Character[SilentSettings.HitPart].Position or game.Players.LocalPlayer.Character.HumanoidRootPart.Position ,
+                    Material = Enum.Material.SmoothPlastic,
+                    Normal = Vector3.new(0, 1, 0),
+                }
+               else
+                  args[3] = rayParams
+               end
+             args[2] = (target.Character[SilentSettings.HitPart].Position - args[1]).Unit * SilentSettings.Range
+			if SilentSettings.RandomRedirection then 
+				args[2] = (target.Character[Hit[math.random(1, #Hit)]].Position - args[1]).Unit * SilentSettings.Range
+			end
+			return RayHook(Self, table.unpack(args))
+        else 
+            return RayHook(Self, ...)
+		end
+
+		end
+
+		return RayHook(Self, ...)
+	end))
