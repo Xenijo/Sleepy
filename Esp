@@ -58,7 +58,6 @@ get("loop").new = function(self, index, func, disabled)
 
     if entry.enabled then
         task.defer(function()
-            -- Run your logic in the background without blocking the main thread
             if entry.func then
                 entry.func()
             end
