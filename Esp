@@ -29,27 +29,45 @@ end
 declare(declare(services, "loop", {}), "cache", {})
 
 get("loop").new = function(self, index, func, disabled)
-	if disabled == nil and (func == nil or typeof(func) == "boolean") then
-		disabled = func func = index
-	end
+    if disabled == nil and (func == nil or typeof(func) == "boolean") then
+        disabled = func
+        func = index
+    end
 
-	self.cache[index] = {
-		["enabled"] = (not disabled),
-		["func"] = func,
-		["toggle"] = function(self, boolean)
-			if boolean == nil then
-				self.enabled = not self.enabled
-			else
-				self.enabled = boolean
-			end
-		end,
-		["remove"] = function()
-			self.cache[index] = nil
-		end
-	}
+    local entry = self.cache[index]
+    if not entry then
+        entry = {
+            ["enabled"] = (not disabled),
+            ["func"] = func,
+            ["toggle"] = function(self, boolean)
+                if boolean == nil then
+                    self.enabled = not self.enabled
+                else
+                    self.enabled = boolean
+                end
+            end,
+            ["remove"] = function()
+                self.cache[index] = nil
+            end
+        }
+        self.cache[index] = entry
+    else
+        entry.enabled = (not disabled)
+        entry.func = func
+    end
 
-	return self.cache[index]
+    if entry.enabled then
+        task.defer(function()
+            -- Run your logic in the background without blocking the main thread
+            if entry.func then
+                entry.func()
+            end
+        end)
+    end
+
+    return entry
 end
+
 
 declare(get("loop"), "connection", cloneref(game:GetService("RunService")).RenderStepped:Connect(function(delta)
 	for _, loop in get("loop").cache do
