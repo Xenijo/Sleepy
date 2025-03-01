@@ -52,7 +52,6 @@ get("loop").new = function(self, index, func, disabled)
 end
 
 declare(get("loop"), "connection", cloneref(game:GetService("RunService")).RenderStepped:Connect(function(delta)
-  if not (math.floor(os.clock() * 100) % 2 == 0) then return end
 	for _, loop in get("loop").cache do
 		if loop.enabled then
 			local success, result = pcall(function()
